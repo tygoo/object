@@ -1,0 +1,140 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+class employee {
+    public:
+    int number;
+    string name;
+    string position;
+    float worked_time;
+
+public:
+    float worker_pay;
+
+public:
+    void change_value(employee);
+    void set_value (int, string, string, float);
+    void get_value ();
+    void start_value();
+    float pay();
+    bool additional_time(float);
+
+private:
+    float direct_pay();
+};
+void employee::set_value (int num, string n, string p, float time){
+    number = num;
+    name = n;
+    position = p;
+    worked_time = time;
+}
+float employee::pay(){
+    float worker_pay = 5;
+    float general_pay = 0;
+    if(position == "director"){
+        general_pay = direct_pay();
+    }
+    else{
+        general_pay = worker_pay * worked_time;
+    }
+    worker_pay = general_pay;
+    return worker_pay;
+}
+float employee::direct_pay(){
+    float general =worked_time * 10;
+    worker_pay = general;
+    return general;
+}
+void employee::get_value(){
+    cout << "number = " << number<< "\n";
+    cout << "name = " << name << "\n";
+    cout << "position = " << position << "\n";
+    cout << "Worked_time = " << worked_time << "\n";
+}
+void employee::start_value(){
+    number = 0;
+    name = "";
+    position = "ajilchin";
+    worked_time = 0;
+}
+bool employee::additional_time(float t){
+    worked_time = worked_time + t;
+    if(worked_time < 24 & worked_time > 0){
+        return true;
+    }
+    else{
+        return false;
+    }
+}
+void employee::change_value(employee e1){
+    int num;
+    string n, p;
+    float work_time, wpay;
+
+    num = e1.number;
+    n = e1.name;
+    p = e1.position;
+    work_time = e1.worked_time;
+    wpay = e1.worker_pay;
+
+    e1.name = name;
+    e1.number = number;
+    e1.position = position;
+    e1.worked_time = worked_time;
+    e1.worker_pay = worker_pay;
+
+    name = n;
+    number = num;
+    position = p;
+    worked_time = work_time;
+    worker_pay = wpay;
+    cout << "kkk" << "\n";
+}
+main(){
+    cout << "Enter your employees number:" << "\n";
+    int n, number;
+    string name, position;
+    float work_time;
+    cin >> n;
+    employee worker[n];
+    employee first;
+
+    for(int i = 0; i < n; i++){
+        number = i+1;
+        cout << "number:" << number <<"\n";
+        cout << "Enter employee name:" << "\n";
+        cin >> name;
+        cout << "Enter employee position: worker or director" << "\n";
+        cin >> position;
+        cout << "Enter worked time:0 to 24" << "\n";
+        cin >> work_time;
+        worker[i].set_value(number,name,position,work_time);
+        cout << "Day salary:" <<worker[i].pay() << "\n";
+        cout << "-----------------------------" << "\n";
+    }
+
+    int temp = 0,min;
+    for(int i = n; i > 0; i--){
+            min = worker[0].worker_pay;
+        for(int j = 0; j < i; j++){
+            if(min > worker[j].worker_pay && i != j){
+                temp = j;
+            }
+        }
+        worker[i-1].change_value(worker[temp]);
+    }
+
+    for(int i = 0; i < n; i++){
+            worker[i].get_value();
+        }
+
+    //.start_value();
+   // first.get_value();
+   /* worker.get_value();
+    cout << "Your day salary:" << worker.pay() << "\n";
+    cout << "Enter your additional worked time:" << "\n";
+    float addition;
+    cin >> addition;
+    cout << worker.additional_time(addition) << "\n";*/
+}
